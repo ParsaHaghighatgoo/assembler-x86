@@ -1,0 +1,6 @@
+gui
+dec
+inc
+jump
+counter
+memory

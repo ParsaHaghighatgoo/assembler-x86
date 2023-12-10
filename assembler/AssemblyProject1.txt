@@ -1,0 +1,6 @@
+add eax,ebx
+add ax,bx
+add al,bl
+sub eax,ebx
+sub ax,bx
+sub al,bl
