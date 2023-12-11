@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask Frontend</title>
+</head>
+<body>
+    <h1>Flask Frontend</h1>
+    <div>
+        <label for="input">Input:</label>
+        <input type="text" id="input">
+        <button onclick="runScript()">Run Script</button>
+    </div>
+    <div>
+        <h2>Output:</h2>
+        <pre id="output"></pre>
+    </div>
+
+    <script>
+        function runScript() {
+            var input = document.getElementById('input').value;
+
+            fetch('/assembler', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ input: input }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('output').innerText = data.output;
+            });
+        }
+    </script>
+</body>
+</html>
