@@ -9,7 +9,7 @@
     <h1>Flask Frontend</h1>
     <div>
         <label for="input">Input:</label>
-        <input type="text" id="input">
+        <textarea type="text" id="input">
         <button onclick="runScript()">Run Script</button>
     </div>
     <div>
@@ -28,6 +28,7 @@
                 },
                 body: JSON.stringify({ input: input }),
             })
+                // text/plain
             .then(response => response.json())
             .then(data => {
                 document.getElementById('output').innerText = data.output;
