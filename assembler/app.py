@@ -1,11 +1,13 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, url_for
 import subprocess
 
 app = Flask(__name__)
 
+# app.url_for("static")
+
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('coverBootstrap.html')
 
 @app.route('/assembler', methods=['POST'])
 def run_script():
