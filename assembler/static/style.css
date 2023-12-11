@@ -1,3 +1,7 @@
+:root {
+  --bs-white: #fff; /* Replace #fff with the desired color value */
+}
+
 .bd-placeholder-img {
     font-size: 1.125rem;
     text-anchor: middle;
@@ -73,5 +77,16 @@
 
 .bd-mode-toggle .dropdown-menu .active .bi {
     display: block !important;
+}
+
+nav.nav {
+    /*background-color: #333; !* Set the background color *!*/
+    padding: 0 10px; /* Add some padding for better appearance */
+}
+
+/* Style for the navigation links */
+nav.nav a.nav-link {
+    color: white; /* Set the text color */
+    margin: 0 10px; /* Add some spacing between links */
 }
 

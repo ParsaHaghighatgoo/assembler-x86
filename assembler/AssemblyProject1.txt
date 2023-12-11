@@ -1,2 +1,1 @@
-add eax,ecx
-push -119
+ff
