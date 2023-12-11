@@ -425,8 +425,18 @@ def assemblerRegReg(instruction, first_arg, second_arg, addressCounter):
 
         if int(first_arg) > 0 :
             first_print = hex(int(first_arg))[2:]
+            first_print = ("0" * (8 - len(str(first_print)))) + first_print
+            temp = ""
+            for i in range(len(first_print) - 2, -1, -2):
+                temp += first_print[i] + first_print[i+1] + " "
         else:
             first_print = str(complement16(hex(int(first_arg))[3:]))
+            first_print = ("f" * (8 - len(str(first_print)))) + first_print
+            temp = ""
+            for i in range(len(first_print) - 2, -1, -2):
+                temp += first_print[i] + first_print[i + 1] + " "
+
+        first_print = temp
 
         addressCounter += 2
         output += ("0" * (16 - len(str(addressCounter)))) + str(addressCounter)
