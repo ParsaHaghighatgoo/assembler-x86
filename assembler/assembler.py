@@ -77,7 +77,10 @@ def complement16(num):
     hexnum = [*num]
     for i in range(len(hexnum)):
         hexnum[i] = hex(15 - int(hexnum[i], 16))[2:]
-    return hex((int("".join(hexnum), 16)) + 1)[2:]
+    temp = "".join(hexnum)
+    if len(hexnum) < 2:
+        temp = "f" + temp
+    return hex((int(temp, 16)) + 1)[2:]
 
 
 def findCounterAddress(output):
@@ -94,7 +97,7 @@ def findCounterAddress(output):
     return cnt
 
 
-def assemblerRegReg(instruction, first_arg, second_arg, addressCounter):
+def assembler(instruction, first_arg, second_arg, addressCounter):
     number = []
     index = 0
     output = ""
@@ -118,7 +121,7 @@ def assemblerRegReg(instruction, first_arg, second_arg, addressCounter):
         else:
             output += second_print
 
-        print(output.upper())
+        printed.append(output.upper())
         x = findCounterAddress(output)
         return x
 
@@ -142,7 +145,7 @@ def assemblerRegReg(instruction, first_arg, second_arg, addressCounter):
         else:
             output += second_print
 
-        print(output.upper())
+        printed.append(output.upper())
         x = findCounterAddress(output)
         return x
 
@@ -166,7 +169,7 @@ def assemblerRegReg(instruction, first_arg, second_arg, addressCounter):
         else:
             output += second_print
 
-        print(output.upper())
+        printed.append(output.upper())
         x = findCounterAddress(output)
         return x
 
@@ -190,7 +193,7 @@ def assemblerRegReg(instruction, first_arg, second_arg, addressCounter):
         else:
             output += second_print
 
-        print(output.upper())
+        printed.append(output.upper())
         x = findCounterAddress(output)
         return x
 
@@ -214,7 +217,7 @@ def assemblerRegReg(instruction, first_arg, second_arg, addressCounter):
         else:
             output += second_print
 
-        print(output.upper())
+        printed.append(output.upper())
         x = findCounterAddress(output)
         return x
 
@@ -238,7 +241,7 @@ def assemblerRegReg(instruction, first_arg, second_arg, addressCounter):
         else:
             output += second_print
 
-        print(output.upper())
+        printed.append(output.upper())
         x = findCounterAddress(output)
         return x
 
@@ -262,7 +265,7 @@ def assemblerRegReg(instruction, first_arg, second_arg, addressCounter):
         else:
             output += second_print
 
-        print(output.upper())
+        printed.append(output.upper())
         x = findCounterAddress(output)
         return x
 
@@ -286,7 +289,7 @@ def assemblerRegReg(instruction, first_arg, second_arg, addressCounter):
         else:
             output += second_print
 
-        print(output.upper())
+        printed.append(output.upper())
         x = findCounterAddress(output)
         return x
 
@@ -310,7 +313,7 @@ def assemblerRegReg(instruction, first_arg, second_arg, addressCounter):
         else:
             output += second_print
 
-        print(output.upper())
+        printed.append(output.upper())
         x = findCounterAddress(output)
         return x
 
@@ -326,7 +329,7 @@ def assemblerRegReg(instruction, first_arg, second_arg, addressCounter):
         else:
             output += first_print
 
-        print(output.upper())
+        printed.append(output.upper())
         x = findCounterAddress(output)
         return x
 
@@ -342,7 +345,7 @@ def assemblerRegReg(instruction, first_arg, second_arg, addressCounter):
         else:
             output += first_print
 
-        print(output.upper())
+        printed.append(output.upper())
         x = findCounterAddress(output)
         return x
 
@@ -358,7 +361,7 @@ def assemblerRegReg(instruction, first_arg, second_arg, addressCounter):
         else:
             output += first_print
 
-        print(output.upper())
+        printed.append(output.upper())
         x = findCounterAddress(output)
         return x
 
@@ -375,22 +378,24 @@ def assemblerRegReg(instruction, first_arg, second_arg, addressCounter):
         else:
             output += first_print
 
-        print(output.upper())
+        printed.append(output.upper())
         x = findCounterAddress(output)
         return x
 
     elif first_arg == None and second_arg == None:
         output += instructions.upper() + " <====> "
         output += "0x"
-        # temp = 0
-        # if addressCounter == -2:
-        #     temp = 0
-        # else:
-        #     temp = addressCounter
         output += ("0" * (16 - len(str(addressCounter)))) + str(addressCounter)
         output += ": NOTHING "
-        print(output.upper())
+        printed.append(output.upper())
         x = 0
+        return x
+
+    elif instruction == "jmp":
+        output = ""
+        printed.append(output.upper())
+        jmps.append([first_arg, addressCounter, len(printed)-1])
+        x = 2
         return x
 
     elif ((int(first_arg)) <= 127) and (int(first_arg) >= -128) and instruction == "push":
@@ -409,7 +414,7 @@ def assemblerRegReg(instruction, first_arg, second_arg, addressCounter):
         else:
             output += first_print
 
-        print(output.upper())
+        printed.append(output.upper())
         x = findCounterAddress(output)
         return x
 
@@ -440,7 +445,7 @@ def assemblerRegReg(instruction, first_arg, second_arg, addressCounter):
         else:
             output += first_print
 
-        print(output.upper())
+        printed.append(output.upper())
         x = findCounterAddress(output)
         return x
 
@@ -458,7 +463,7 @@ def assemblerRegReg(instruction, first_arg, second_arg, addressCounter):
         else:
             output += first_print
 
-        print(output.upper())
+        printed.append(output.upper())
         x = findCounterAddress(output)
         return x
 
@@ -475,7 +480,7 @@ def assemblerRegReg(instruction, first_arg, second_arg, addressCounter):
         else:
             output += first_print
 
-        print(output.upper())
+        printed.append(output.upper())
         x = findCounterAddress(output)
         return x
 
@@ -492,7 +497,7 @@ def assemblerRegReg(instruction, first_arg, second_arg, addressCounter):
         else:
             output += first_print
 
-        print(output.upper())
+        printed.append(output.upper())
         x = findCounterAddress(output)
         return x
 
@@ -509,7 +514,7 @@ def assemblerRegReg(instruction, first_arg, second_arg, addressCounter):
         else:
             output += first_print
 
-        print(output.upper())
+        printed.append(output.upper())
         x = findCounterAddress(output)
         return x
 
@@ -519,6 +524,29 @@ def assemblerRegReg(instruction, first_arg, second_arg, addressCounter):
         return 0
 
 
+def jmp(first_arg, addressCounter, index):
+    output = ""
+    number = []
+    output += "jmp" + " " + first_arg + " <====> "
+    output += "0x"
+    labelAddress = labels[first_arg]
+    processedNum = labelAddress - (addressCounter + 2)
+    if processedNum < 0:
+        first_print = str(complement16(hex(int(processedNum))[3:]))
+    else:
+        first_print = hex(int(processedNum))[2:]
+    number.append(first_print)
+    output += ("0" * (16 - len(str(addressCounter)))) + str(addressCounter)
+    output += ": eb "
+    if len(first_print) == 1:
+        output += "0" + first_print
+    else:
+        output += first_print
+
+    printed[index] = output.upper()
+    return
+
+
 file_path = "AssemblyProject1.txt"
 
 with open(file_path, 'r') as file:
@@ -526,10 +554,11 @@ with open(file_path, 'r') as file:
 
 lines = code.splitlines()
 addressCounter = 0
-label = {}
+labels = {}
+jmps = []
+printed = []
 
 for line in lines:
-
     splitT = line.split(" ")
     instructions = splitT[0].lower()
     if ":" in line:
@@ -544,9 +573,13 @@ for line in lines:
             first_arg = regs[0].lower()
             second_arg = None
 
-    counterAdding = assemblerRegReg(instructions, first_arg, second_arg, addressCounter)
+    counterAdding = assembler(instructions, first_arg, second_arg, addressCounter)
     addressCounter += counterAdding
     if ":" in instructions:
+        labels[instructions[0:len(instructions) - 1]] = addressCounter
 
-        label[instructions[0:len(instructions)-1]] = addressCounter
-    print(label)
+for i in jmps:
+    jmp(i[0], i[1], i[2])
+
+for i in printed:
+    print(i)
