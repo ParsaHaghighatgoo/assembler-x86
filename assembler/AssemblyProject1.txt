@@ -1,1 +1,4 @@
-ff
+add eax,ecx
+jmp l1
+add ax,cx
+l1:
