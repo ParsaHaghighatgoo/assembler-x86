@@ -1,1 +1,2 @@
-add ax,[bx]
+jmp l2
+l2:
