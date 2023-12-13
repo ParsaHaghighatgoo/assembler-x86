@@ -7,6 +7,7 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
+
 @app.route('/parsa')
 def parsaAssembler():
     return render_template('indexp.html')

@@ -4,38 +4,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flask Frontend</title>
+
+    <!-- Include Typed.js styles -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typed.js@2.0.12">
+
+    <style>
+        /* Optional: Customize cursor styles */
+        .typed-cursor {
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
+
 <button><a class="nav-link fw-bold py-1 px-0" href="/">Home</a></button>
 
-    <h1>Flask Frontend</h1>
-    <div>
-        <label for="input">Input:</label>
-        <textarea type="text" id="input" placeholder="write your instructions"></textarea>
-        <button onclick="runScript()">Run Script</button>
-    </div>
-    <div>
-        <h2>Output:</h2>
-        <pre id="output"></pre>
-    </div>
+<h1 id="typed">Flask Frontend</h1>
 
-    <script>
-        function runScript() {
-            var input = document.getElementById('input').value;
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var typed = new Typed('#typed', {
+            stringsElement: '#typed',  // Use the content inside #typed as the source
+            typeSpeed: 50,
+            backSpeed: 30,
+            backDelay: 1000,
+            startDelay: 500,
+            loop: true
+        });
+    });
 
-            fetch('/assemblerVP', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ input: input }),
-            })
-                // text/plain
+    function runScript() {
+        var input = document.getElementById('input').value;
+
+        fetch('/assemblerVP', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({input: input}),
+        })
             .then(response => response.json())
             .then(data => {
                 document.getElementById('output').innerText = data.output;
             });
-        }
-    </script>
+    }
+</script>
+
+<div>
+    <label for="input">Input:</label>
+    <textarea type="text" id="input" placeholder="write your instructions"></textarea>
+    <button onclick="runScript()">Run Script</button>
+</div>
+<div>
+    <h2>Output:</h2>
+    <pre id="output"></pre>
+</div>
+
 </body>
 </html>

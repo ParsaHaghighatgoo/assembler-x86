@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask Frontend</title>
+</head>
+<body>
+<button><a class="nav-link fw-bold py-1 px-0" href="/">Home</a></button>
+
+    <h1 id="typed">Flask Frontend</h1>
+    <div>
+        <label for="input">Input:</label>
+        <textarea type="text" id="input" placeholder="write your instructions"></textarea>
+        <button onclick="runScript()">Run Script</button>
+    </div>
+    <div>
+        <h2>Output:</h2>
+        <pre id="output"></pre>
+    </div>
+
+    <script>
+        // // <p>Some stuff about <span className="typed"
+        // //                           data-typed-items="Reverse Engineering, Program Analysis, Deofbuscation, Binary Exploitation, Fuzzing">Deofbuscatio</span><span
+        // //     className="typed-cursor" aria-hidden="true">|</span></p>
+        // var a = ["sina","parsa"]
+        // var index = 0
+        // var courser = 0
+        // var output = ""
+        // setInterval(function (){
+        //     output +=
+        //     document.getElementById("typed").innerText = output
+        //     if(index == 0 ){
+        //         index = 1
+        //     }
+        //     else{
+        //         index = 0
+        //     }
+        // },1000)
+
+            function runScript() {
+                var input = document.getElementById('input').value;
+
+                fetch('/assemblerVP', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({input: input}),
+                })
+                    // text/plain
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('output').innerText = data.output;
+                    });
+            }
+    </script>
+</body>
+</html>
+//////////////////
