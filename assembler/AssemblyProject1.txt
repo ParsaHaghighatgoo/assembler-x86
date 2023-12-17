@@ -1,2 +1,1 @@
-jmp l2
-l2:
+add eax,ecx
