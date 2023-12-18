@@ -1,9 +1,6 @@
 =========================================
 error handler
-terminal
-clean
 check dc roje
 doc
-cmnt
 back
 front
