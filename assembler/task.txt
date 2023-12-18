@@ -1,21 +1,11 @@
 =========================================
 error handler
+terminal
 clean
-inc
 check dc roje
-dec
-push
-pop
 doc
 cmnt
 code khudam brsh bzrm
-jmp
 gui
-adres
-back front
-payame groh
-wsl M
-ADD M
-moshkel -2
-moshkel - 1 func find
-jvb sina
+back
+front
