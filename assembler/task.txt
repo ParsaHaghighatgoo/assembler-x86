@@ -5,7 +5,5 @@ clean
 check dc roje
 doc
 cmnt
-code khudam brsh bzrm
-gui
 back
 front
