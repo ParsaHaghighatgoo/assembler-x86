@@ -1,5 +1,4 @@
 add eax,ecx
-jmp l1
-add ax,cx
-l1:
-add ax,[bx]
+i_am_here:
+add bx,dx
+jmp i_am_here
