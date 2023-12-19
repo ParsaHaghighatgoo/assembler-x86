@@ -5,18 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flask Frontend</title>
 
-    <!-- Include Typed.js styles -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typed.js@2.0.12">
-    <!-- Include FontAwesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
     <style>
-        /* Optional: Customize cursor styles */
+
         .typed-cursor {
             font-weight: bold;
         }
 
-        /* Style for the container */
         #container {
             display: flex;
             flex-direction: column;
@@ -24,27 +22,26 @@
             margin-top: 20px;
         }
 
-        /* Style for the navbar */
         #navbar {
             background-color: #333;
-            padding: 15px; /* Increased padding for a bigger navbar */
-            width: 100%;
+            padding: 15px;
+            width: 98%;
             text-align: center;
-            margin: 0; /* Remove margin */
+            margin: 0;
             display: flex;
-            justify-content: space-between; /* Align items to the left and right */
-            align-items: center; /* Vertically center items */
+            justify-content: space-between;
+            align-items: center;
         }
 
         #navbar-title {
             color: white;
             text-decoration: none;
-            font-size: 24px; /* Adjust the font size for the title */
+            font-size: 24px;
         }
 
         #navbar-buttons {
             display: flex;
-            gap: 20px; /* Adjust the distance between buttons */
+            gap: 20px;
         }
 
         #navbar a,
@@ -55,43 +52,18 @@
             font-size: 16px;
         }
 
-        /*#run-script-btn {*/
-        /*    background-color: #5a23c8; !* Set the initial background color *!*/
-        /*    color: white;*/
-        /*    padding: 10px 20px;*/
-        /*    border: none;*/
-        /*    border-radius: 5px;*/
-        /*    cursor: pointer;*/
-        /*    font-size: 16px;*/
-        /*    font-family: 'Exo 2', sans-serif; !* Set the desired font *!*/
 
-        /*    transition: transform 0.3s ease, background-color 0.3s ease; !* Add a smooth transition effect *!*/
-
-        /*    !* Additional styles for better visual appearance *!*/
-        /*    outline: none; !* Remove default outline *!*/
-        /*}*/
-
-        /*#run-script-btn:hover {*/
-        /*    transform: scale(1.05); !* Add a scale-up effect on hover *!*/
-        /*    background-color: #4a1a9c; !* Change background color on hover *!*/
-        /*}*/
-
-        /*#run-script-btn:active {*/
-        /*    transform: scale(0.95); !* Add a slight scale down effect on button press *!*/
-        /*}*/
-
-        #input-container {
-            width: 100%; /* Take up the full width of the container */
-            margin-bottom: 50px; /* Add some space between input and output */
-            display: flex;
-            flex-direction: column;
-            align-items: center; /* Center items horizontally */
-        }
-
-        /* Style for the input box */
         #input-container {
             width: 100%;
-            margin-bottom: 50px; /* Add some space between input and output */
+            margin-bottom: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #input-container {
+            width: 100%;
+            margin-bottom: 50px;
         }
 
         #input {
@@ -99,9 +71,8 @@
             height: 150px;
         }
 
-        /* Style for the "Run Script" button */
         #run-script-btn {
-            margin-top: 20px; /* Adjust the margin as needed */
+            margin-top: 20px;
             background-color: #5a23c8;
             color: white;
             padding: 10px 20px;
@@ -115,8 +86,8 @@
         }
 
         #run-script-btn:hover {
-            transform: scale(1.1); /* Bigger size on hover */
-            background-color: #3d1a7a; /* Darker color on hover */
+            transform: scale(1.1);
+            background-color: #3d1a7a;
         }
 
         #run-script-btn:active {
@@ -129,90 +100,106 @@
             cursor: pointer;
         }
 
-        /* Style for the input and output containers */
         #input-output-container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 70%; /* Adjust the width as needed */
+            width: 70%;
             margin-top: 50px;
         }
 
-        /*!* Style for the input box *!*/
-        /*#input-container {*/
-        /*    width: 100%; !* Take up the full width of the container *!*/
-        /*    margin-bottom: 50px; !* Add some space between input and output *!*/
 
-        /*}*/
-
-        /*#input {*/
-        /*    width: 100%; !* Take up the full width of the container *!*/
-        /*    height: 150px; !* Set the desired height *!*/
-
-        /*}*/
-
-        /* Style for the output box */
         .output-container {
             color: #5a23c8;
             border: 1px solid blue;
             padding: 10px;
             border-radius: 5px;
-            width: 100%; /* Take up the full width of the container */
+            width: 100%;
         }
 
         #output {
-            width: 100%; /* Make the output box fill the width of its container */
-            height: 150px; /* Set the desired height */
-            resize: vertical; /* Allow vertical resizing */
-            overflow: auto; /* Add a scrollbar if content exceeds the box height */
+            width: 100%;
+            height: 150px;
+            resize: vertical;
+            overflow: auto;
 
         }
 
 
         body {
             font-family: 'Exo 2', sans-serif;
-            margin: 0; /* Remove margin */
-            padding: 0; /* Remove padding */
+            margin: 0;
+            padding: 0;
 
         }
 
-        /* Dark mode styles */
         body.dark-mode {
-            background-color: #333; /* Dark background color */
-            color: #ddd; /* Light text color */
+            background-color: #333;
+            color: #ddd;
         }
 
         body.dark-mode #input-output-container,
         body.dark-mode #output {
-            background-color: #444; /* Darker background color for input/output containers */
-            border-color: #666; /* Border color for input/output containers */
+            background-color: #444;
+            border-color: #666;
         }
 
         body.dark-mode #typed,
         body.dark-mode #navbar a,
         body.dark-mode #navbar button {
-            color: #8a8a8a; /* Lighter text color for specific elements */
+            color: #8a8a8a;
         }
 
         body.dark-mode #dark-mode-toggle {
-            background-color: #666; /* Darker background color for the dark mode toggle button */
-            color: #ddd; /* Light text color for the dark mode toggle button */
+            background-color: #666;
+            color: #ddd;
         }
 
-        .h1t{
+        .h1t {
             padding-left: 10px;
+        }
+
+         #footer {
+            background-color: #333;
+            color: white;
+            padding: 30px;
+            text-align: center;
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #footer-content {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        #footer p {
+            margin: 0;
+            margin-bottom: 10px;
+        }
+
+        #footer a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        #footer a i {
+            margin-right: 5px;
         }
     </style>
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap" rel="stylesheet">
 </head>
 
-<body>
+<body style="overflow-x: hidden" >
 
 <div id="navbar">
     <a id="navbar-title" class="nav-link fw-bold py-1 px-0" href="#">x86 Online Assembler</a>
@@ -238,14 +225,21 @@
         </div>
     </div>
 </div>
+<footer id="footer">
+    <div id="footer-content">
+        <p>&copy; This Assembler created by Parsa HaghighatGoo</p>
+        <a href="https://github.com/parsahaghighatgoo" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-github"></i>
+        </a>
+    </div>
+</footer>
 
 <script>
     function animateText() {
         var text = document.getElementById('typed').innerText;
         var newText = '';
-        var delay = 100; // Adjust the delay as needed
+        var delay = 100;
 
-        // Delete each character with a delay
         for (var i = text.length; i >= 0; i--) {
             setTimeout(function (index) {
                 newText = text.substring(0, index);
@@ -253,7 +247,6 @@
             }, (text.length - i) * delay, i);
         }
 
-        // Print each character with a delay
         for (var i = 0; i <= text.length; i++) {
             setTimeout(function (index) {
                 newText = text.substring(0, index);
@@ -262,7 +255,6 @@
         }
     }
 
-    // Call the animateText function when the page loads
     window.onload = animateText;
 
     function runScript() {

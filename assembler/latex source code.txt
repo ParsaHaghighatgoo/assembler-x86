@@ -1,0 +1,640 @@
+\documentclass[a4paper,12pt]{article} 
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{csquotes}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb} 
+\usepackage{graphicx} 
+\usepackage[hidelinks]{hyperref}
+\usepackage{wrapfig}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{mdframed}
+\usepackage{float}
+\usepackage[most]{tcolorbox}
+\usepackage{eurosym}
+\usepackage{color}
+\usepackage{titling}
+\usepackage{lipsum}
+\usepackage{minted}
+\usepackage{tocbibind} 
+\usepackage{newpxtext}
+\usepackage[many]{tcolorbox}
+\usepackage{graphicx}
+
+
+\usepackage[backend=biber,style=numeric,giveninits=true]{biblatex}
+\addbibresource{bibliografia.bib}
+
+\usepackage[left=3cm,right=3cm,top=3cm,bottom=4cm]{geometry}
+
+\pagestyle{fancy}
+
+\newcommand{\hsp}{\hspace{20pt}}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+\headheight=50pt
+\newcommand{\vacio}{\phantom{relleno}}
+\renewcommand{\theequation}{\thesection.\arabic{equation}}
+
+\definecolor{azulportada}{rgb}{0.21176,0.37255,0.56863}
+\definecolor{azulinterior}{rgb}{0.21176,0.37255,0.56863}
+
+\author{}
+\title{X86 Assembler}
+\newcommand{\director}{Professor: Dr. Esfandiari}
+
+\linespread{1.25}
+
+\newtcblisting[auto counter,number within=section]{pythoncode}[2][]{
+  listing engine=minted,
+  minted language=python,
+  colback=white,
+  colframe=black!70,
+  listing only,
+  title={Listing \thetcbcounter: #2},
+  enhanced,
+  breakable,
+  sharp corners,
+  boxsep=2mm,
+  left=6mm,
+  lefttitle=0mm,
+  right=0mm,
+  top=0mm,
+  bottom=0mm,
+  middle=0mm,
+  listing options={
+    numbers=left,
+    numbersep=5pt,
+    numberstyle=\tiny\color{black!50},
+    breaklines=true,
+    escapeinside=||,
+    #1
+  },
+}
+
+
+\begin{document}
+
+\begin{titlepage} 
+    \newgeometry{left=0.6cm,top=1.3cm,bottom=1.2cm}
+
+\fbox{\parbox[c]{18.5cm}{
+\begin{center}
+\vspace{1.5cm}
+{\fontfamily{ppl}\fontsize{24}{6}\selectfont{}}\\
+[1em]
+{\fontfamily{ppl}\fontsize{16}{5}\selectfont{}}\\
+[1em]
+{\fontfamily{ppl}\fontsize{24}{5}\selectfont{Assembly Language Course}}\\
+[2.6cm]
+% Autor del trabajo de investigación
+\textcolor{azulportada}{\fontfamily{ppl}\fontsize{16}{5}\selectfont{\theauthor}}\\
+[1cm]
+% Título del trabajo
+\textcolor{azulportada}
+{\fontfamily{ppl}\fontsize{30}{5}\selectfont{\textsc{\MakeUppercase{\thetitle}}}}\\
+[1cm]
+\includegraphics[width=5.5cm]{shiraz university icon.png}
+\\[2cm]
+{\fontfamily{ppl}\fontsize{16}{5}\selectfont{Parsa HaghighatGoo}}\\
+[0.5cm]
+{\fontfamily{ppl}\fontsize{16}{5}\selectfont{\director}}\\
+[2cm]
+{\fontfamily{ppl}\fontsize{16}{5}\selectfont{semester Fall - 2023}}\\
+[2cm]
+\end{center}
+}}
+
+\restoregeometry
+\end{titlepage}
+
+\newpage
+
+\renewcommand{\headrulewidth}{0.5pt}
+\fancyhead[R]{
+    \textcolor{azulinterior}{\fontfamily{ppl}\fontsize{14}{4}\selectfont{\textbf{\thetitle}}}\\
+\textcolor{azulportada}{\fontfamily{ppl}\fontsize{10}{3}\selectfont{}}\\
+{\fontfamily{ppl}\fontsize{10}{3}\selectfont{\theauthor}}}
+\fancyhead[L]{\vacio}
+
+\renewcommand{\footrulewidth}{0.5pt}
+\fancyfoot[L]{\footnotesize}
+\fancyfoot[C]{\vacio}
+\fancyfoot[R]{\footnotesize Page \thepage}
+
+\vacio
+
+\subsection{Introduction}
+In this project, we designed an x86 Online Assembler using Python for the assembler, the Flask framework for the backend, and created the UI with HTML/CSS/Bootstrap and JavaScript.
+\\\
+This project also includes a GUI version and an executable (exe) file. You can find all the project files on [GitHub](https://github.com/ParsaHaghighatgoo/assembler-x86).
+\\\
+
+\hrule
+
+\newpage
+
+\tableofcontents
+
+\newpage 
+
+\section{Assembler Overview}
+This Python-based x86 assembler supports 32-bit assembly instructions. The assembler translates human-readable assembly code into machine code, facilitating the execution of programs on 32-bit architectures.
+\\\
+\\\
+
+\hrule
+
+\newpage
+
+\subsection{Assembly Dictionaries}
+
+In the context of the x86 assembler, several dictionaries are defined to facilitate the translation of assembly mnemonics to their corresponding binary representations. These dictionaries play a crucial role in encoding various components of assembly language, including registers, memory operands, and instruction opcodes.
+
+\subsubsection{32-bit Registers}
+\begin{pythoncode}{32-bit Registers}
+registers_32bit = {
+    "eax": "000",
+    "ecx": "001",
+    "edx": "010",
+    "ebx": "011",
+    "esp": "100",
+    "esi": "110",
+    "edi": "111",
+    "ebp": "101"
+}
+\end{pythoncode}
+
+\subsubsection{32-bit Memory Operands}
+\begin{pythoncode}{32-bit Memory Operands}
+memory_32bit = {
+    "[eax]": "000",
+    "[ecx]": "001",
+    "[edx]": "010",
+    "[ebx]": "011",
+    "[esp]": "100",
+    "[esi]": "110",
+    "[edi]": "111",
+    "[ebp]": "101"
+}
+\end{pythoncode}
+
+\subsubsection{16-bit Registers}
+\begin{pythoncode}{16-bit Registers}
+registers_16bit = {
+    "ax": "000",
+    "cx": "001",
+    "dx": "010",
+    "bx": "011",
+    "sp": "100",
+    "si": "110",
+    "di": "111",
+    "bp": "101"
+}
+\end{pythoncode}
+
+\subsubsection{16-bit Memory Operands}
+\begin{pythoncode}{16-bit Memory Operands}
+memory_16bit = {
+    "[ax]": "000",
+    "[cx]": "001",
+    "[dx]": "010",
+    "[bx]": "011",
+    "[sp]": "100",
+    "[si]": "110",
+    "[di]": "111",
+    "[bp]": "101"
+}
+\end{pythoncode}
+
+\subsubsection{8-bit Registers}
+\begin{pythoncode}{8-bit Registers}
+registers_8bit = {
+    "al": "000",
+    "cl": "001",
+    "dl": "010",
+    "bl": "011",
+    "ah": "100",
+    "ch": "101",
+    "dh": "110",
+    "bh": "111"
+}
+\end{pythoncode}
+
+\subsubsection{8-bit Memory Operands}
+\begin{pythoncode}{8-bit Memory Operands}
+memory_8bit = {
+    "[al]": "000",
+    "[cl]": "001",
+    "[dl]": "010",
+    "[bl]": "011",
+    "[ah]": "100",
+    "[ch]": "101",
+    "[dh]": "110",
+    "[bh]": "111"
+}
+\end{pythoncode}
+
+\subsubsection{Instruction Opcodes}
+\begin{pythoncode}{Instruction Opcodes}
+InstructionOpCode = {
+    "add": "000000",
+    "sub": "001010",
+    "and": "001000",
+    "or": "000010",
+    "xor": "001100",
+    "push": "01010",
+    "pop": "01011",
+    "inc": "01000",
+    "dec": "01001"
+}
+\end{pythoncode}
+
+\newpage
+
+\subsection{Complement16 Function}
+
+The \texttt{complement16} function takes a hexadecimal number as input and computes its 16's complement. Here is the Python code for the function:
+
+\begin{pythoncode}{Python code for complement16 function}
+def complement16(num):
+    hexnum = [*num]
+    for i in range(len(hexnum)):
+        hexnum[i] = hex(15 - int(hexnum[i], 16))[2:]
+    temp = "".join(hexnum)
+    if len(hexnum) < 2:
+        temp = "f" + temp
+    return hex((int(temp, 16)) + 1)[2:]
+\end{pythoncode}
+
+\\\
+\\\
+\hrule
+\\\
+
+\subsection{Find Counter Address Function}
+
+The \texttt{findCounterAddress} function takes a string (\texttt{output}) as input and finds the counter address based on a specific condition. Here is the Python code for the function:
+
+\begin{pythoncode}{Python code for findCounterAddress function}
+def findCounterAddress(output):
+    index = 0
+    for i in range(len(output)):
+        if (output[i]) == ":":
+            index = i
+            break
+    index += 2
+    out = ""
+    for i in range(index, len(output)):
+        out += output[i]
+    cnt = len(out.split(" "))
+    return cnt
+\end{pythoncode}
+\newpage
+
+\subsection{Assembler Function}
+The assembler function is a versatile assembly code generator that translates high-level assembly instructions into machine code. It supports a variety of instructions and addressing modes, allowing for flexibility in coding x86 assembly.
+\\\
+Register-Register Instructions
+This section handles instructions where both operands are 32-bit registers. It generates the corresponding machine code, appends it to the output, and updates the program counter.
+\\\
+Register-Memory 32-bit
+For instructions involving a 32-bit register and a memory operand, this section produces the corresponding machine code. It considers different cases and updates the program counter accordingly.
+\\\
+Jump and Other Special Conditions
+Handling special instructions like jumps, this section appends an empty output for further processing and maintains a record of jump instructions.
+\\\
+Other Instruction Scenarios
+This section deals with various instruction scenarios, such as pushing values onto the stack, memory operations, and error handling for invalid instructions.
+\\\
+The assembler function demonstrates a modular and organized approach to generating assembly code. It can be extended to support additional instructions and addressing modes as needed.
+\\\\
+\newpage
+
+\begin{pythoncode}{Assembler Function}
+def assembler(instruction, first_arg, second_arg, addressCounter):
+    number = []
+    index = 0
+    output = ""
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % Register-Register Instructions %
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    if first_arg in registers_32bit and second_arg in registers_32bit:
+        output += instruction.upper() + " " + first_arg + "," + second_arg + " <====> "
+        output += "0x"
+        number.append(
+            InstructionOpCode[instruction] + "01" + '11' + registers_32bit[second_arg] + registers_32bit[first_arg])
+        first_print = hex(int(number[index][:8], 2))[2:]
+        ...
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % Register-Memory 32-bit   %
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    elif first_arg in registers_32bit and second_arg in memory_32bit:
+        output += instructions.upper() + " " + first_arg + "," + second_arg + " <====> "
+        output += "0x"
+        number.append(
+            InstructionOpCode[instruction] + "11" + '00' + registers_32bit[first_arg] + memory_32bit[second_arg])
+        ...
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % Jump and Other Special Conditions  %
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    elif instruction == "jmp":
+        output = ""
+        printed.append(output.upper())
+        jmps.append([first_arg, addressCounter, len(printed) - 1])
+        ...
+
+    elif ((int(first_arg)) <= 127) and (int(first_arg) >= -128) and instruction == "push":
+        output += instructions.upper() + " " + first_arg + " <====> "
+        output += "0x"
+        ...
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % Handle Other Instruction Scenarios %
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    else:
+        print("Invalid Instruction or reg/m/imm")
+        return 0
+\end{pythoncode}
+\newpage
+The function works the same for other inputs. If you're interested, you can check the code on my GitHub; I've included the link in the introduction section. I aim to elucidate each segment of the code. Take the reg/reg32 section, for instance; within this function, I initially construct a string comprising the input instruction and the function's offset (generated using the findAddressCounter function, as detailed in its corresponding section). Subsequently, I create the opcode utilizing a pre-defined dictionary called diserd, convert the binary opcode of the register to hexadecimal, finalize the output string, and ultimately append it to a global list named 'printed' upon completion of the process.
+\\\
+The function works the same for other inputs.\\\
+
+\subsection{Jump (jmp) Function}
+
+The \texttt{jmp} function handles the assembly instruction \texttt{jmp}, facilitating an unconditional jump to a specified label in the code. It calculates the relative offset required for the jump and assembles the corresponding machine code. The result is then formatted into an output string, including the updated program counter value.
+
+\subsubsection{}section{Function Signature:}
+\begin{verbatim}
+def jmp(first_arg, addressCounter, index):
+\end{verbatim}
+
+\subsubsection{Parameters:}
+\begin{itemize}
+    \item \texttt{first\_arg}: The target label for the jump.
+    \item \texttt{addressCounter}: The current address counter value.
+    \item \texttt{index}: Index used for updating the global list.
+\end{itemize}
+
+\subsubsection{Description:}
+The function calculates the relative offset by subtracting the label address from the current address counter, then converts it to machine code. The output string includes the assembled instruction, label, and the updated program counter value. The result is stored in the global list \texttt{printed}.
+
+\subsubsection{Code:}
+\begin{pythoncode}{Assembler Function}
+def jmp(first_arg, addressCounter, index):
+    output = ""
+    number = []
+    output += "jmp" + " " + first_arg + " <====> "
+    output += "0x"
+    labelAddress = labels[first_arg]
+    processedNum = labelAddress - (addressCounter + 2)
+    if processedNum < 0:
+        first_print = str(complement16(hex(int(processedNum))[3:]))
+    else:
+        first_print = hex(int(processedNum))[2:]
+    number.append(first_print)
+    output += ("0" * (16 - len(str(addressCounter)))) + str(addressCounter)
+    output += ": eb "
+    if len(first_print) == 1:
+        output += "0" + first_print
+    else:
+        output += first_print
+
+    printed[index] = output.upper()
+    return
+\end{pythoncode}
+
+\subsection{File Reading}
+
+\subsubsection{Python Code}
+\begin{pythoncode}{File Reading}
+file_path = "AssemblyProject1.txt"
+
+with open(file_path, 'r') as file:
+    code = file.read()
+
+lines = code.splitlines()
+\end{pythoncode}
+
+\subsubsection{Description}
+This section reads the contents of a file named \texttt{AssemblyProject1.txt} and splits the code into lines for further processing.
+
+\subsection{Initialization}
+
+\subsubsection{Python Code}
+\begin{pythoncode}{Initialization}
+addressCounter = 0
+labels = {}
+jmps = []
+printed = []
+\end{pythoncode}
+
+\subsubsection{Description}
+These variables are initialized to keep track of the address counter, labels, jump instructions, and printed outputs.
+
+\subsection{Code Processing}
+
+\subsubsection{Python Code}
+\begin{pythoncode}{Code Processing}
+try:
+    for line in lines:
+        splitT = line.split(" ")
+        instructions = splitT[0].lower()
+        if ":" in line:
+            first_arg = None
+            second_arg = None
+        else:
+            regs = splitT[1].split(",")
+            if len(regs) == 2:
+                first_arg = regs[0].lower()
+                second_arg = regs[1].lower()
+            elif len(regs) == 1:
+                first_arg = regs[0].lower()
+                second_arg = None
+
+        counterAdding = assembler(instructions, first_arg, second_arg, addressCounter)
+        addressCounter += counterAdding
+        if ":" in instructions:
+            labels[instructions[0:len(instructions) - 1]] = addressCounter
+except:
+    print("Invalid input")
+\end{pythoncode}
+
+\subsubsection{Description}
+This section processes each line of the code, determines the instruction and its arguments, and updates the address counter. Labels are also identified and stored.
+
+\subsection{Jump Processing}
+
+\subsubsection{Python Code}
+\begin{pythoncode}{Jump Processing}
+for i in jmps:
+    jmp(i[0], i[1], i[2])
+\end{pythoncode}
+
+\subsubsection{Description}
+This part of the code processes jump instructions using the \texttt{jmp} function.
+
+\subsection{Print Output}
+
+\subsubsection{Python Code}
+\begin{pythoncode}{Print Output}
+for i in printed:
+    print(i)
+\end{pythoncode}
+
+\subsubsection{Description}
+This section prints the assembled output.
+
+\newpage
+\section{GUI Input}
+
+\subsection{Python Code}
+\begin{pythoncode}{GUI Input}
+import easygui
+
+def main(addressCounter=0):
+    msg = "Enter your x86 assembly code:"
+    title = "x86 Assembler"
+
+    # Use codebox for multi-line input
+    user_input = easygui.codebox(msg, title, "")
+\end{pythoncode}
+
+\subsection{Description}
+This section displays a GUI input box using EasyGUI's \texttt{codebox} function, allowing the user to enter x86 assembly code.
+
+\subsection{Assemble Code}
+
+\subsection{Python Code}
+\begin{pythoncode}{Assemble Code}
+    if user_input:
+        output_file_path = easygui.filesavebox("Save Input to File", "x86 Assembler", filetypes=["*.txt"])
+        output = "\n".join(printed)
+        easygui.msgbox("Assembled Code:\n\n{}".format(output), "Assembler Output")
+    else:
+        easygui.msgbox("Output file not selected.", "x86 Assembler")
+\end{pythoncode}
+
+\subsection{Description}
+If the user provides input, this section prompts the user to save the input to a file. It then assembles the code, joins the printed output, and displays it in a message box. If no input is provided, it shows a message box indicating that the output file is not selected.
+\newpage
+\subsection{EasyGui}
+"I created this GUI using EasyGUI, and here are some photos of it."
+\\\
+\\\
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{gui1.png}
+    \caption{Input}
+    \label{fig:your_image}
+\end{figure}
+\\\
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{gui2.png}
+    \caption{Output}
+    \label{fig:your_image}
+\end{figure}
+\newpage
+
+
+
+\section{Exe file}
+I created the executable file for this project using CxFreeze, and here is its code
+\\\
+\begin{pythoncode}{Exe Setup}
+    from cx_Freeze import setup, Executable
+    setup(
+        name="x86assembler",
+        version="1.0",
+        description="this is a x86 assembler.",
+        executables=[Executable("x86assembler.py")],
+    )
+\end{pythoncode}
+
+
+\section{Flask Application}
+
+In this section, we provide an overview of a Flask application that serves as an interface for running x86 assembler scripts. The application includes routes for different assemblers and an endpoint for executing the assembler script.
+
+\subsection{Flask App Script}
+
+\begin{pythoncode}{Flask App Script}
+    from flask import Flask, render_template, request, jsonify, url_for
+    import subprocess
+    
+    app = Flask(__name__)
+    
+    @app.route('/')
+    def index():
+        return render_template('index.html')
+    
+    @app.route('/parsa')
+    def parsaAssembler():
+        return render_template('indexp.html')
+    
+    @app.route('/sina')
+    def sinaAssembler():
+        return render_template('indexs.html')
+    
+    @app.route('/assemblerVS', methods=['POST'])
+    def run_sinascript():
+        data = request.get_json()
+        input_data = data['input']
+        with open('AssemblyProject1.txt', 'w') as f:
+            f.write(input_data)
+        result = subprocess.check_output(['python', 'assembler.py', input_data], universal_newlines=True)
+        return jsonify({'output': result})
+    
+    @app.route('/assemblerVP', methods=['POST'])
+    def run_script():
+        data = request.json
+        input_data = data['input']
+        with open('AssemblyProject1.txt', 'w') as f:
+            f.write(input_data)
+    
+        # Execute your Python script with the input
+        result = subprocess.check_output(['python', 'assembler.py', input_data], universal_newlines=True)
+    
+        return jsonify({'output': result})
+    
+    if __name__ == '__main__':
+        app.run(debug=True)
+\end{pythoncode}
+
+\subsection{Description}
+
+This Flask application script defines routes for different assemblers and provides an endpoint for executing the assembler script. The routes (\texttt{/}, \texttt{/parsa}, \texttt{/sina}) render corresponding HTML templates. The \texttt{/assemblerVS} and \texttt{/assemblerVP} endpoints handle POST requests, write the input data to a file, execute the assembler script, and return the output.
+
+\newpage
+\section{Web Application}
+If you want to see it, you should run the Flask server on your local host; it doesn't live yet (as of 12/20/23). I will host this web app, and it will go live later. Here are some photos of it. It includes some animations. If you want to see them, you should run the server.
+\\\
+\\\
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{homepage.png}
+    \caption{Home Page}
+    \label{fig:your_image}
+\end{figure}
+\\\
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{vp.png}
+    \caption{AssemblerVP}
+    \label{fig:your_image}
+\end{figure}
+\newpage
+\section{Thanks}
+I trust that this document proves beneficial to you.
+\\\
+I appreciate your time and consideration. If you have any further questions or need additional assistance, please feel free to reach out. Thank you for using my document.
+\end{document}
+
+

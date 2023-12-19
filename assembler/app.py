@@ -33,7 +33,6 @@ def run_script():
     with open('AssemblyProject1.txt', 'w') as f:
         f.write(input_data)
 
-    # Execute your Python script with the input
     result = subprocess.check_output(['python', 'assembler.py', input_data], universal_newlines=True)
 
     return jsonify({'output': result})

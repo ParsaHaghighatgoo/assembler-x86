@@ -394,7 +394,7 @@ def assembler(instruction, first_arg, second_arg, addressCounter):
     elif instruction == "jmp":
         output = ""
         printed.append(output.upper())
-        jmps.append([first_arg, addressCounter, len(printed)-1])
+        jmps.append([first_arg, addressCounter, len(printed) - 1])
         x = 2
         return x
 
@@ -558,26 +558,28 @@ labels = {}
 jmps = []
 printed = []
 
-for line in lines:
-    splitT = line.split(" ")
-    instructions = splitT[0].lower()
-    if ":" in line:
-        first_arg = None
-        second_arg = None
-    else:
-        regs = splitT[1].split(",")
-        if len(regs) == 2:
-            first_arg = regs[0].lower()
-            second_arg = regs[1].lower()
-        elif len(regs) == 1:
-            first_arg = regs[0].lower()
+try:
+    for line in lines:
+        splitT = line.split(" ")
+        instructions = splitT[0].lower()
+        if ":" in line:
+            first_arg = None
             second_arg = None
+        else:
+            regs = splitT[1].split(",")
+            if len(regs) == 2:
+                first_arg = regs[0].lower()
+                second_arg = regs[1].lower()
+            elif len(regs) == 1:
+                first_arg = regs[0].lower()
+                second_arg = None
 
-    counterAdding = assembler(instructions, first_arg, second_arg, addressCounter)
-    addressCounter += counterAdding
-    if ":" in instructions:
-        labels[instructions[0:len(instructions) - 1]] = addressCounter
-
+        counterAdding = assembler(instructions, first_arg, second_arg, addressCounter)
+        addressCounter += counterAdding
+        if ":" in instructions:
+            labels[instructions[0:len(instructions) - 1]] = addressCounter
+except:
+    print("invalid input")
 for i in jmps:
     jmp(i[0], i[1], i[2])
 
