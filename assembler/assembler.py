@@ -1,3 +1,4 @@
+#some dictionary for defining registers memories and instruction opcode
 registers_32bit = {
     "eax": "000",
     "ecx": "001",
@@ -72,7 +73,7 @@ InstructionOpCode = {
     "dec": "01001"
 }
 
-
+#this is a 16 complement for neg hexa numbers
 def complement16(num):
     hexnum = [*num]
     for i in range(len(hexnum)):
@@ -81,8 +82,8 @@ def complement16(num):
     if len(hexnum) < 2:
         temp = "f" + temp
     return hex((int(temp, 16)) + 1)[2:]
-
-
+  
+#this function set offset(address) for instruction
 def findCounterAddress(output):
     index = 0
     for i in range(len(output)):
@@ -97,10 +98,14 @@ def findCounterAddress(output):
     return cnt
 
 
+#this is assembler function
 def assembler(instruction, first_arg, second_arg, addressCounter):
+    #define local vars
     number = []
     index = 0
     output = ""
+
+    #if for reg reg mode
     if first_arg in registers_32bit and second_arg in registers_32bit:
         output += instruction.upper() + " " + first_arg + "," + second_arg + " <====> "
         output += "0x"
@@ -125,6 +130,7 @@ def assembler(instruction, first_arg, second_arg, addressCounter):
         x = findCounterAddress(output)
         return x
 
+    #if for reg/reg16
     elif first_arg in registers_16bit and second_arg in registers_16bit:
         output += instructions.upper() + " " + first_arg + "," + second_arg + " <====> "
         output += "0x"
@@ -149,6 +155,7 @@ def assembler(instruction, first_arg, second_arg, addressCounter):
         x = findCounterAddress(output)
         return x
 
+    #if reg/reg8
     elif first_arg in registers_8bit and second_arg in registers_8bit:
         output += instructions.upper() + " " + first_arg + "," + second_arg + " <====> "
         output += "0x"
@@ -173,6 +180,7 @@ def assembler(instruction, first_arg, second_arg, addressCounter):
         x = findCounterAddress(output)
         return x
 
+    #if for memory/reg32
     elif first_arg in memory_32bit and second_arg in registers_32bit:
         output += instructions.upper() + " " + first_arg + "," + second_arg + " <====> "
         output += "0x"
@@ -196,7 +204,7 @@ def assembler(instruction, first_arg, second_arg, addressCounter):
         printed.append(output.upper())
         x = findCounterAddress(output)
         return x
-
+    # if for memory/reg16
     elif first_arg in memory_32bit and second_arg in registers_16bit:
         output += instructions.upper() + " " + first_arg + "," + second_arg + " <====> "
         output += "0x"
@@ -220,7 +228,7 @@ def assembler(instruction, first_arg, second_arg, addressCounter):
         printed.append(output.upper())
         x = findCounterAddress(output)
         return x
-
+    # if for memory/reg8
     elif first_arg in memory_32bit and second_arg in registers_8bit:
         output += instructions.upper() + " " + first_arg + "," + second_arg + " <====> "
         output += "0x"
@@ -245,6 +253,7 @@ def assembler(instruction, first_arg, second_arg, addressCounter):
         x = findCounterAddress(output)
         return x
 
+    # if for reg32/memory
     elif first_arg in registers_32bit and second_arg in memory_32bit:
         output += instructions.upper() + " " + first_arg + "," + second_arg + " <====> "
         output += "0x"
@@ -269,6 +278,7 @@ def assembler(instruction, first_arg, second_arg, addressCounter):
         x = findCounterAddress(output)
         return x
 
+    # if for reg16/memory
     elif first_arg in registers_16bit and second_arg in memory_32bit:
         output += instructions.upper() + " " + first_arg + "," + second_arg + " <====> "
         output += "0x"
@@ -293,6 +303,7 @@ def assembler(instruction, first_arg, second_arg, addressCounter):
         x = findCounterAddress(output)
         return x
 
+    # if for reg8/memory
     elif first_arg in registers_8bit and second_arg in memory_32bit:
         output += instructions.upper() + " " + first_arg + "," + second_arg + " <====> "
         output += "0x"
@@ -317,6 +328,7 @@ def assembler(instruction, first_arg, second_arg, addressCounter):
         x = findCounterAddress(output)
         return x
 
+    #if for one args mode reg32
     elif first_arg in registers_32bit:
         output += instructions.upper() + " " + first_arg + " <====> "
         output += "0x"
@@ -333,6 +345,7 @@ def assembler(instruction, first_arg, second_arg, addressCounter):
         x = findCounterAddress(output)
         return x
 
+    #if for one args mode reg16
     elif first_arg in registers_16bit:
         output += instructions.upper() + " " + first_arg + " <====> "
         output += "0x"
@@ -349,6 +362,7 @@ def assembler(instruction, first_arg, second_arg, addressCounter):
         x = findCounterAddress(output)
         return x
 
+    # if for inc
     elif first_arg in registers_8bit and instruction == "inc":
         output += instructions.upper() + " " + first_arg + " <====> "
         output += "0x"
@@ -365,6 +379,7 @@ def assembler(instruction, first_arg, second_arg, addressCounter):
         x = findCounterAddress(output)
         return x
 
+    #if for reg8 and dec instruction
     elif first_arg in registers_8bit and instruction == "dec":
         output += instructions.upper() + " " + first_arg + " <====> "
         output += "0x"
@@ -382,6 +397,8 @@ def assembler(instruction, first_arg, second_arg, addressCounter):
         x = findCounterAddress(output)
         return x
 
+
+    #if for label
     elif first_arg == None and second_arg == None:
         output += instructions.upper() + " <====> "
         output += "0x"
@@ -391,13 +408,15 @@ def assembler(instruction, first_arg, second_arg, addressCounter):
         x = 0
         return x
 
+    #if for jmp
     elif instruction == "jmp":
         output = ""
         printed.append(output.upper())
-        jmps.append([first_arg, addressCounter, len(printed) - 1])
+        jmps.append([first_arg, addressCounter, len(printed)-1])
         x = 2
         return x
 
+    #if for push imm in this range
     elif ((int(first_arg)) <= 127) and (int(first_arg) >= -128) and instruction == "push":
         output += instructions.upper() + " " + first_arg + " <====> "
         output += "0x"
@@ -418,7 +437,7 @@ def assembler(instruction, first_arg, second_arg, addressCounter):
         x = findCounterAddress(output)
         return x
 
-
+    # if for push imm in this range
     elif ((int(first_arg)) <= -129) or (int(first_arg) >= 128) and instruction == "push":
         output += instructions.upper() + " " + first_arg + " <====> "
         output += "0x"
@@ -449,7 +468,7 @@ def assembler(instruction, first_arg, second_arg, addressCounter):
         x = findCounterAddress(output)
         return x
 
-
+    #if for memory and one args
     elif first_arg in memory_32bit:
         output += instructions.upper() + " " + first_arg + " <====> "
         output += "0x"
@@ -467,6 +486,7 @@ def assembler(instruction, first_arg, second_arg, addressCounter):
         x = findCounterAddress(output)
         return x
 
+    # if for push imm in this range
     elif first_arg in memory_16bit:
         output += instructions.upper() + " " + first_arg + " <====> "
         output += "0x"
@@ -484,6 +504,7 @@ def assembler(instruction, first_arg, second_arg, addressCounter):
         x = findCounterAddress(output)
         return x
 
+    # if for push imm in this range
     elif first_arg in memory_8bit:
         output += instructions.upper() + " " + first_arg + " <====> "
         output += "0x"
@@ -501,6 +522,7 @@ def assembler(instruction, first_arg, second_arg, addressCounter):
         x = findCounterAddress(output)
         return x
 
+    # if for push imm in this range
     elif instruction in memory_8bit:
         output += instructions.upper() + " " + first_arg + " <====> "
         output += "0x"
@@ -518,19 +540,20 @@ def assembler(instruction, first_arg, second_arg, addressCounter):
         x = findCounterAddress(output)
         return x
 
-
+    #error handler
     else:
         print("Invalid Instruction or reg/m/imm")
         return 0
 
 
+#this function create jmp output and opcode
 def jmp(first_arg, addressCounter, index):
     output = ""
     number = []
     output += "jmp" + " " + first_arg + " <====> "
     output += "0x"
-    labelAddress = labels[first_arg]
-    processedNum = labelAddress - (addressCounter + 2)
+    labelAddress = labels[first_arg] #label's address
+    processedNum = labelAddress - (addressCounter + 2) #the number that should print after eb
     if processedNum < 0:
         first_print = str(complement16(hex(int(processedNum))[3:]))
     else:
@@ -546,9 +569,10 @@ def jmp(first_arg, addressCounter, index):
     printed[index] = output.upper()
     return
 
-
+#file path
 file_path = "AssemblyProject1.txt"
 
+#open file for reading it
 with open(file_path, 'r') as file:
     code = file.read()
 
@@ -559,29 +583,42 @@ jmps = []
 printed = []
 
 try:
-    for line in lines:
-        splitT = line.split(" ")
-        instructions = splitT[0].lower()
-        if ":" in line:
-            first_arg = None
-            second_arg = None
-        else:
-            regs = splitT[1].split(",")
-            if len(regs) == 2:
-                first_arg = regs[0].lower()
-                second_arg = regs[1].lower()
-            elif len(regs) == 1:
-                first_arg = regs[0].lower()
-                second_arg = None
+  #iterate the input file
+  for line in lines:
+      splitT = line.split(" ")
+      #set instruction
+      instructions = splitT[0].lower()
 
-        counterAdding = assembler(instructions, first_arg, second_arg, addressCounter)
-        addressCounter += counterAdding
-        if ":" in instructions:
-            labels[instructions[0:len(instructions) - 1]] = addressCounter
+      #if instruction is label
+      if ":" in line:
+          first_arg = None
+          second_arg = None
+      else:
+          regs = splitT[1].split(",")
+          if len(regs) == 2:
+          #instructions like add reg/reg
+              first_arg = regs[0].lower()
+              second_arg = regs[1].lower()
+          #instructions like push imm or inc
+          elif len(regs) == 1:
+              first_arg = regs[0].lower()
+              second_arg = None
+
+      #call assembler function
+      counterAdding = assembler(instructions, first_arg, second_arg, addressCounter)
+      addressCounter += counterAdding
+
+      #add label to labels dict if instruction is label
+      if ":" in instructions:
+          labels[instructions[0:len(instructions) - 1]] = addressCounter
+
 except:
     print("invalid input")
+          
+#iterate jumps array for modify jmps and create output for it
 for i in jmps:
     jmp(i[0], i[1], i[2])
 
+#print all elements in printed array
 for i in printed:
     print(i)

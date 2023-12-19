@@ -1,3 +1,4 @@
+
 jmp l2
 add eax,ebx
 sub ecx,[eax]
@@ -15,3 +16,7 @@ push 280
 pop eax
 l2:
 jmp l1
+add eax,ecx
+i_am_here:
+add bx,dx
+jmp i_am_here
