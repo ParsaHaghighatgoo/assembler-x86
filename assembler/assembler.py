@@ -82,7 +82,7 @@ def complement16(num):
     if len(hexnum) < 2:
         temp = "f" + temp
     return hex((int(temp, 16)) + 1)[2:]
-
+  
 #this function set offset(address) for instruction
 def findCounterAddress(output):
     index = 0
@@ -96,6 +96,7 @@ def findCounterAddress(output):
         out += output[i]
     cnt = len(out.split(" "))
     return cnt
+
 
 #this is assembler function
 def assembler(instruction, first_arg, second_arg, addressCounter):
@@ -396,6 +397,7 @@ def assembler(instruction, first_arg, second_arg, addressCounter):
         x = findCounterAddress(output)
         return x
 
+
     #if for label
     elif first_arg == None and second_arg == None:
         output += instructions.upper() + " <====> "
@@ -543,6 +545,7 @@ def assembler(instruction, first_arg, second_arg, addressCounter):
         print("Invalid Instruction or reg/m/imm")
         return 0
 
+
 #this function create jmp output and opcode
 def jmp(first_arg, addressCounter, index):
     output = ""
@@ -579,35 +582,39 @@ labels = {}
 jmps = []
 printed = []
 
-#iterate the input file
-for line in lines:
-    splitT = line.split(" ")
-    #set instruction
-    instructions = splitT[0].lower()
+try:
+  #iterate the input file
+  for line in lines:
+      splitT = line.split(" ")
+      #set instruction
+      instructions = splitT[0].lower()
 
-    #if instruction is label
-    if ":" in line:
-        first_arg = None
-        second_arg = None
-    else:
-        regs = splitT[1].split(",")
-        if len(regs) == 2:
-        #instructions like add reg/reg
-            first_arg = regs[0].lower()
-            second_arg = regs[1].lower()
-        #instructions like push imm or inc
-        elif len(regs) == 1:
-            first_arg = regs[0].lower()
-            second_arg = None
+      #if instruction is label
+      if ":" in line:
+          first_arg = None
+          second_arg = None
+      else:
+          regs = splitT[1].split(",")
+          if len(regs) == 2:
+          #instructions like add reg/reg
+              first_arg = regs[0].lower()
+              second_arg = regs[1].lower()
+          #instructions like push imm or inc
+          elif len(regs) == 1:
+              first_arg = regs[0].lower()
+              second_arg = None
 
-    #call assembler function
-    counterAdding = assembler(instructions, first_arg, second_arg, addressCounter)
-    addressCounter += counterAdding
+      #call assembler function
+      counterAdding = assembler(instructions, first_arg, second_arg, addressCounter)
+      addressCounter += counterAdding
 
-    #add label to labels dict if instruction is label
-    if ":" in instructions:
-        labels[instructions[0:len(instructions) - 1]] = addressCounter
+      #add label to labels dict if instruction is label
+      if ":" in instructions:
+          labels[instructions[0:len(instructions) - 1]] = addressCounter
 
+except:
+    print("invalid input")
+          
 #iterate jumps array for modify jmps and create output for it
 for i in jmps:
     jmp(i[0], i[1], i[2])

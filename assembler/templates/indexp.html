@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask Frontend</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typed.js@2.0.12">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+
+        .typed-cursor {
+            font-weight: bold;
+        }
+
+        #container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        #navbar {
+            background-color: #333;
+            padding: 15px;
+            width: 98%;
+            text-align: center;
+            margin: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #navbar-title {
+            color: white;
+            text-decoration: none;
+            font-size: 24px;
+        }
+
+        #navbar-buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        #navbar a,
+        #navbar button {
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+
+        #input-container {
+            width: 100%;
+            margin-bottom: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #input-container {
+            width: 100%;
+            margin-bottom: 50px;
+        }
+
+        #input {
+            width: 100%;
+            height: 150px;
+        }
+
+        #run-script-btn {
+            margin-top: 20px;
+            background-color: #5a23c8;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-family: 'Exo 2', sans-serif;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            outline: none;
+        }
+
+        #run-script-btn:hover {
+            transform: scale(1.1);
+            background-color: #3d1a7a;
+        }
+
+        #run-script-btn:active {
+            transform: scale(0.95);
+        }
+
+        #navbar button {
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        #input-output-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 70%;
+            margin-top: 50px;
+        }
+
+
+        .output-container {
+            color: #5a23c8;
+            border: 1px solid blue;
+            padding: 10px;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        #output {
+            width: 100%;
+            height: 150px;
+            resize: vertical;
+            overflow: auto;
+
+        }
+
+
+        body {
+            font-family: 'Exo 2', sans-serif;
+            margin: 0;
+            padding: 0;
+
+        }
+
+        body.dark-mode {
+            background-color: #333;
+            color: #ddd;
+        }
+
+        body.dark-mode #input-output-container,
+        body.dark-mode #output {
+            background-color: #444;
+            border-color: #666;
+        }
+
+        body.dark-mode #typed,
+        body.dark-mode #navbar a,
+        body.dark-mode #navbar button {
+            color: #8a8a8a;
+        }
+
+        body.dark-mode #dark-mode-toggle {
+            background-color: #666;
+            color: #ddd;
+        }
+
+        .h1t {
+            padding-left: 10px;
+        }
+
+         #footer {
+            background-color: #333;
+            color: white;
+            padding: 30px;
+            text-align: center;
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #footer-content {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        #footer p {
+            margin: 0;
+            margin-bottom: 10px;
+        }
+
+        #footer a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        #footer a i {
+            margin-right: 5px;
+        }
+    </style>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body style="overflow-x: hidden" >
+
+<div id="navbar">
+    <a id="navbar-title" class="nav-link fw-bold py-1 px-0" href="#">x86 Online Assembler</a>
+    <div id="navbar-buttons">
+        <a class="nav-link fw-bold py-1 px-0" href="/"><i class="fas fa-home"></i></a>
+        <button id="dark-mode-toggle" onclick="toggleDarkMode()"><i class="fas fa-moon"></i></button>
+    </div>
+</div>
+
+<h1 id="typed" class="h1t">x86 online assembler</h1>
+
+
+<div id="container">
+    <div id="input-output-container">
+        <div id="input-container">
+            <textarea type="text" id="input" placeholder="write your instructions(input)"></textarea>
+            <button id="run-script-btn" onclick="runScript()">Run Script</button>
+        </div>
+
+        <div class="output-container">
+            <h2>Output:</h2>
+            <pre id="output" contenteditable="true"></pre>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div id="footer-content">
+        <p>&copy; This Assembler created by Parsa HaghighatGoo</p>
+        <a href="https://github.com/parsahaghighatgoo" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-github"></i>
+        </a>
+    </div>
+</footer>
+
+<script>
+    function animateText() {
+        var text = document.getElementById('typed').innerText;
+        var newText = '';
+        var delay = 100;
+
+        for (var i = text.length; i >= 0; i--) {
+            setTimeout(function (index) {
+                newText = text.substring(0, index);
+                document.getElementById('typed').innerText = newText;
+            }, (text.length - i) * delay, i);
+        }
+
+        for (var i = 0; i <= text.length; i++) {
+            setTimeout(function (index) {
+                newText = text.substring(0, index);
+                document.getElementById('typed').innerText = newText;
+            }, (text.length + i) * delay, i);
+        }
+    }
+
+    window.onload = animateText;
+
+    function runScript() {
+        var input = document.getElementById('input').value;
+        fetch('/assemblerVP', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({input: input}),
+        })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('output').innerText = data.output;
+            });
+    }
+
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+    }
+</script>
+
+</body>
+</html>
