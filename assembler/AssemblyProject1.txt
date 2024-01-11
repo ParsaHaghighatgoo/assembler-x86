@@ -1,22 +1,4 @@
-
-jmp l2
-add eax,ebx
-sub ecx,[eax]
-and esi,ebx
-or eax,ecx
-inc esi
-dec eax
-push eax
-l1:
-pip i
-push -110
-push -259
-push 11
-push 280
-pop eax
-l2:
-jmp l1
 add eax,ecx
-i_am_here:
-add bx,dx
-jmp i_am_here
+label:
+sub eax,ebx
+jmp label
