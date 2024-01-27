@@ -1,11 +1,14 @@
-.stack(100)
+.stack(110)
 
-.data(55)
-myword Word
+.data(70)
+myword WORD
 mybyte byte
+mydword dword
+
 
 .code(10)
 
-and [esi],ax
+push eax
 add eax,ebx
-
+push 110
+push bx
