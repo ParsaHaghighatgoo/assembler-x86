@@ -12,3 +12,7 @@ push eax
 add eax,ebx
 push 110
 push bx
+push 350
+push -40000
+pop eax
+

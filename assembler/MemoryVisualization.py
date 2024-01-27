@@ -502,7 +502,7 @@ def assembler(instruction, first_arg, second_arg, addressCounter):
             output += "0" + first_print
         else:
             output += first_print
-
+        output = output[:len(output)-1]
         outputReverseArray = output.split(" ")
         outputReverseArray = outputReverseArray[::-1]
         for i in outputReverseArray:
@@ -648,6 +648,7 @@ sp = 0
 dp = 0
 flagCode = 0
 flagDataBreak = 0
+printLabelForStartASegment = 0
 
 try:
     # iterate the input file
@@ -791,7 +792,34 @@ for i in stackPrinted:
     memory[spIterate] = i
     spIterate += 1
 
-print(memory)
+def colorize(text, color):
+    colors = {
+        'RESET': '\033[0m',
+        'RED': '\033[91m',
+        'GREEN': '\033[92m',
+        'YELLOW': '\033[93m',
+        'BLUE': '\033[94m',  # ANSI escape code for blue
+        'PURPLE': '\033[95m',
+        'CYAN': '\033[96m',
+        'WHITE': '\033[97m'
+    }
+    return colors[color] + text + colors['RESET']
+
+# Your existing code
+
 for i in range(0, len(memory)):
-    print("       ------      ")
-    print(createStrIndexMemory(i) + " : " + "|  "+memory[i]+"  |")
+    if i == cp or i == dp or i == sp:
+        if i == cp:
+            printLabelForStartASegment = "CP"
+        elif i == dp:
+            printLabelForStartASegment = "DP"
+        elif i == sp:
+            printLabelForStartASegment = "SP"
+        print("          ------      ")
+        print(colorize(printLabelForStartASegment + " " + createStrIndexMemory(i) + " : |  " + colorize(memory[i], 'GREEN') + colorize("  |","GREEN"), 'GREEN'))
+
+    else:
+        print("          ------      ")
+        print("   " + colorize(createStrIndexMemory(i),"PURPLE") + " : |  " + colorize(memory[i], 'BLUE') + "  |")
+
+print("          ------      ")
