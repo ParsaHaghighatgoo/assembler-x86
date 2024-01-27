@@ -1,4 +1,11 @@
-add eax,ecx
-label:
-sub eax,ebx
-jmp label
+.stack(100)
+
+.data(55)
+myword Word
+mybyte byte
+
+.code(10)
+
+and [esi],ax
+add eax,ebx
+

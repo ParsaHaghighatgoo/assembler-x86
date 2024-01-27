@@ -1,4 +1,6 @@
 # some dictionary for defining registers memories and instruction opcode
+import re
+
 registers_32bit = {
     "eax": "000",
     "ecx": "001",
@@ -109,6 +111,7 @@ def assembler(instruction, first_arg, second_arg, addressCounter):
 
     # if for reg reg mode
     if first_arg in registers_32bit and second_arg in registers_32bit:
+
         number.append(
             InstructionOpCode[instruction] + "01" + '11' + registers_32bit[second_arg] + registers_32bit[first_arg])
         first_print = hex(int(number[index][:8], 2))[2:]
@@ -118,13 +121,17 @@ def assembler(instruction, first_arg, second_arg, addressCounter):
         else:
             output += first_print
 
-        output += "\n"
+        output += " "
         if len(second_print) == 1:
             output += "0" + second_print
         else:
             output += second_print
 
-        printed.append(output.upper())
+        outputReverseArray = output.split(" ")
+        outputReverseArray = outputReverseArray[::-1]
+        for i in outputReverseArray:
+            printed.append(i.upper())
+        printed.append(" ")
         x = findCounterAddress(output)
         return x
 
@@ -135,19 +142,23 @@ def assembler(instruction, first_arg, second_arg, addressCounter):
             InstructionOpCode[instruction] + "01" + '11' + registers_16bit[second_arg] + registers_16bit[first_arg])
         first_print = hex(int(number[index][:8], 2))[2:]
         second_print = hex(int(number[index][8:], 2))[2:]
-        output += ":66\n"
+        output += "66 "
         if len(first_print) == 1:
             output += "0" + first_print
         else:
             output += first_print
 
-        output += "\n"
+        output += " "
         if len(second_print) == 1:
             output += "0" + second_print
         else:
             output += second_print
 
-        printed.append(output.upper())
+        outputReverseArray = output.split(" ")
+        outputReverseArray = outputReverseArray[::-1]
+        for i in outputReverseArray:
+            printed.append(i.upper())
+        printed.append(" ")
         x = findCounterAddress(output)
         return x
 
@@ -158,19 +169,22 @@ def assembler(instruction, first_arg, second_arg, addressCounter):
             InstructionOpCode[instruction] + "00" + '11' + registers_8bit[second_arg] + registers_8bit[first_arg])
         first_print = hex(int(number[index][:8], 2))[2:]
         second_print = hex(int(number[index][8:], 2))[2:]
-
         if len(first_print) == 1:
             output += "0" + first_print
         else:
             output += first_print
 
-        output += "\n"
+        output += " "
         if len(second_print) == 1:
             output += "0" + second_print
         else:
             output += second_print
 
-        printed.append(output.upper())
+        outputReverseArray = output.split(" ")
+        outputReverseArray = outputReverseArray[::-1]
+        for i in outputReverseArray:
+            printed.append(i.upper())
+        printed.append(" ")
         x = findCounterAddress(output)
         return x
 
@@ -187,13 +201,17 @@ def assembler(instruction, first_arg, second_arg, addressCounter):
         else:
             output += first_print
 
-        output += "\n"
+        output += " "
         if len(second_print) == 1:
             output += "0" + second_print
         else:
             output += second_print
 
-        printed.append(output.upper())
+        outputReverseArray = output.split(" ")
+        outputReverseArray = outputReverseArray[::-1]
+        for i in outputReverseArray:
+            printed.append(i.upper())
+        printed.append(" ")
         x = findCounterAddress(output)
         return x
     # if for memory/reg16
@@ -203,19 +221,23 @@ def assembler(instruction, first_arg, second_arg, addressCounter):
             InstructionOpCode[instruction] + "01" + '00' + registers_16bit[second_arg] + memory_32bit[first_arg])
         first_print = hex(int(number[index][:8], 2))[2:]
         second_print = hex(int(number[index][8:], 2))[2:]
-        output += ":66\n"
+        output += "66 "
         if len(first_print) == 1:
             output += "0" + first_print
         else:
             output += first_print
 
-        output += "\n"
+        output += " "
         if len(second_print) == 1:
             output += "0" + second_print
         else:
             output += second_print
 
-        printed.append(output.upper())
+        outputReverseArray = output.split(" ")
+        outputReverseArray = outputReverseArray[::-1]
+        for i in outputReverseArray:
+            printed.append(i.upper())
+        printed.append(" ")
         x = findCounterAddress(output)
         return x
     # if for memory/reg8
@@ -231,13 +253,17 @@ def assembler(instruction, first_arg, second_arg, addressCounter):
         else:
             output += first_print
 
-        output += "\n"
+        output += " "
         if len(second_print) == 1:
             output += "0" + second_print
         else:
             output += second_print
 
-        printed.append(output.upper())
+        outputReverseArray = output.split(" ")
+        outputReverseArray = outputReverseArray[::-1]
+        for i in outputReverseArray:
+            printed.append(i.upper())
+        printed.append(" ")
         x = findCounterAddress(output)
         return x
 
@@ -254,13 +280,17 @@ def assembler(instruction, first_arg, second_arg, addressCounter):
         else:
             output += first_print
 
-        output += "\n"
+        output += " "
         if len(second_print) == 1:
             output += "0" + second_print
         else:
             output += second_print
 
-        printed.append(output.upper())
+        outputReverseArray = output.split(" ")
+        outputReverseArray = outputReverseArray[::-1]
+        for i in outputReverseArray:
+            printed.append(i.upper())
+        printed.append(" ")
         x = findCounterAddress(output)
         return x
 
@@ -271,19 +301,23 @@ def assembler(instruction, first_arg, second_arg, addressCounter):
             InstructionOpCode[instruction] + "11" + '00' + registers_16bit[first_arg] + memory_32bit[second_arg])
         first_print = hex(int(number[index][:8], 2))[2:]
         second_print = hex(int(number[index][8:], 2))[2:]
-        output += ":66\n"
+        output += "66 "
         if len(first_print) == 1:
             output += "0" + first_print
         else:
             output += first_print
 
-        output += "\n"
+        output += " "
         if len(second_print) == 1:
             output += "0" + second_print
         else:
             output += second_print
 
-        printed.append(output.upper())
+        outputReverseArray = output.split(" ")
+        outputReverseArray = outputReverseArray[::-1]
+        for i in outputReverseArray:
+            printed.append(i.upper())
+        printed.append(" ")
         x = findCounterAddress(output)
         return x
 
@@ -300,13 +334,17 @@ def assembler(instruction, first_arg, second_arg, addressCounter):
         else:
             output += first_print
 
-        output += "\n"
+        output += " "
         if len(second_print) == 1:
             output += "0" + second_print
         else:
             output += second_print
 
-        printed.append(output.upper())
+        outputReverseArray = output.split(" ")
+        outputReverseArray = outputReverseArray[::-1]
+        for i in outputReverseArray:
+            printed.append(i.upper())
+        printed.append(" ")
         x = findCounterAddress(output)
         return x
 
@@ -321,56 +359,83 @@ def assembler(instruction, first_arg, second_arg, addressCounter):
         else:
             output += first_print
 
-        printed.append(output.upper())
+        outputReverseArray = output.split(" ")
+        outputReverseArray = outputReverseArray[::-1]
+        for i in outputReverseArray:
+            printed.append(i.upper())
+        printed.append(" ")
         x = findCounterAddress(output)
         return x
 
     # if for one args mode reg16
     elif first_arg in registers_16bit:
+
         number.append(InstructionOpCode[instruction] + registers_16bit[first_arg])
         first_print = hex(int(number[index][:8], 2))[2:]
-        output += "66\n"
+        output += "66 "
         if len(first_print) == 1:
             output += "0" + first_print
         else:
             output += first_print
 
-        printed.append(output.upper())
+        outputReverseArray = output.split(" ")
+        outputReverseArray = outputReverseArray[::-1]
+        for i in outputReverseArray:
+            printed.append(i.upper())
+        printed.append(" ")
+
         x = findCounterAddress(output)
         return x
 
     # if for inc
     elif first_arg in registers_8bit and instruction == "inc":
+
         number.append("11000" + registers_8bit[first_arg])
         first_print = hex(int(number[index][:8], 2))[2:]
-        output += ":fe\n"
+        output += "fe "
         if len(first_print) == 1:
             output += "0" + first_print
         else:
             output += first_print
 
-        printed.append(output.upper())
+        outputReverseArray = output.split(" ")
+        outputReverseArray = outputReverseArray[::-1]
+        for i in outputReverseArray:
+            printed.append(i.upper())
+        printed.append(" ")
+
         x = findCounterAddress(output)
         return x
 
     # if for reg8 and dec instruction
     elif first_arg in registers_8bit and instruction == "dec":
+
         number.append("11001" + registers_8bit[first_arg])
         first_print = hex(int(number[index][:8], 2))[2:]
-        output += ":fe\n"
+
+        output += "fe"
         if len(first_print) == 1:
             output += "0" + first_print
         else:
             output += first_print
 
-        printed.append(output.upper())
+        outputReverseArray = output.split(" ")
+        outputReverseArray = outputReverseArray[::-1]
+        for i in outputReverseArray:
+            printed.append(i.upper())
+        printed.append(" ")
+
         x = findCounterAddress(output)
         return x
 
 
     # if for label
     elif first_arg == None and second_arg == None:
-        # printed.append(output.upper())
+        output += instructions.upper() + " <====> "
+        output += "0x"
+        output += ("0" * (16 - len(str(addressCounter)))) + str(addressCounter)
+        output += ": NOTHING "
+        printed.append(output.upper())
         x = 0
         return x
 
@@ -384,24 +449,29 @@ def assembler(instruction, first_arg, second_arg, addressCounter):
 
     # if for push imm in this range
     elif ((int(first_arg)) <= 127) and (int(first_arg) >= -128) and instruction == "push":
+
         if int(first_arg) > 0:
             first_print = hex(int(first_arg))[2:]
         else:
             first_print = str(complement16(hex(int(first_arg))[3:]))
 
-        output += ":6a\n"
+        output += "6a "
         if len(first_print) == 1:
             output += "0" + first_print
         else:
             output += first_print
 
-        printed.append(output.upper())
+        outputReverseArray = output.split(" ")
+        outputReverseArray = outputReverseArray[::-1]
+        for i in outputReverseArray:
+            printed.append(i.upper())
+        printed.append(" ")
+
         x = findCounterAddress(output)
         return x
 
     # if for push imm in this range
     elif ((int(first_arg)) <= -129) or (int(first_arg) >= 128) and instruction == "push":
-
 
         if int(first_arg) > 0:
             first_print = hex(int(first_arg))[2:]
@@ -418,14 +488,18 @@ def assembler(instruction, first_arg, second_arg, addressCounter):
 
         first_print = temp
 
-
-        output += "68\n"
+        output += "68 "
         if len(first_print) == 1:
             output += "0" + first_print
         else:
             output += first_print
 
-        printed.append(output.upper())
+        outputReverseArray = output.split(" ")
+        outputReverseArray = outputReverseArray[::-1]
+        for i in outputReverseArray:
+            printed.append(i.upper())
+        printed.append(" ")
+
         x = findCounterAddress(output)
         return x
 
@@ -435,29 +509,38 @@ def assembler(instruction, first_arg, second_arg, addressCounter):
         number.append(InstructionOpCode[instruction] + memory_32bit[first_arg])
         first_print = hex(int(number[index][:8], 2))[2:]
 
-
         if len(first_print) == 1:
             output += "0" + first_print
         else:
             output += first_print
 
-        printed.append(output.upper())
+        outputReverseArray = output.split(" ")
+        outputReverseArray = outputReverseArray[::-1]
+        for i in outputReverseArray:
+            printed.append(i.upper())
+        printed.append(" ")
+
         x = findCounterAddress(output)
         return x
 
     # if for push imm in this range
     elif first_arg in memory_16bit:
+
         number.append(InstructionOpCode[instruction] + memory_16bit[first_arg])
         first_print = hex(int(number[index][:8], 2))[2:]
 
-
-        output += "66\n"
+        output += "66 "
         if len(first_print) == 1:
             output += "0" + first_print
         else:
             output += first_print
 
-        printed.append(output.upper())
+        outputReverseArray = output.split(" ")
+        outputReverseArray = outputReverseArray[::-1]
+        for i in outputReverseArray:
+            printed.append(i.upper())
+        printed.append(" ")
+
         x = findCounterAddress(output)
         return x
 
@@ -467,13 +550,18 @@ def assembler(instruction, first_arg, second_arg, addressCounter):
         number.append(InstructionOpCode[instruction] + memory_8bit[first_arg])
         first_print = hex(int(number[index][:8], 2))[2:]
 
-
         if len(first_print) == 1:
             output += "0" + first_print
         else:
             output += first_print
 
-        printed.append(output.upper())
+        outputReverseArray = output.split(" ")
+        outputReverseArray = outputReverseArray[::-1]
+        for i in outputReverseArray:
+            printed.append(i.upper())
+
+        printed.append(" ")
+
         x = findCounterAddress(output)
         return x
 
@@ -483,13 +571,17 @@ def assembler(instruction, first_arg, second_arg, addressCounter):
         number.append(InstructionOpCode[instruction] + memory_8bit[first_arg])
         first_print = hex(int(number[index][:8], 2))[2:]
 
-
         if len(first_print) == 1:
             output += "0" + first_print
         else:
             output += first_print
 
-        printed.append(output.upper())
+        outputReverseArray = output.split(" ")
+        outputReverseArray = outputReverseArray[::-1]
+        for i in outputReverseArray:
+            printed.append(i.upper())
+        printed.append(" ")
+
         x = findCounterAddress(output)
         return x
 
@@ -505,6 +597,7 @@ def assembler(instruction, first_arg, second_arg, addressCounter):
 def jmp(first_arg, addressCounter, index):
     output = ""
     number = []
+
     labelAddress = labels[first_arg]  # label's address
     processedNum = labelAddress - (addressCounter + 2)  # the number that should print after eb
     if processedNum < 0:
@@ -512,13 +605,17 @@ def jmp(first_arg, addressCounter, index):
     else:
         first_print = hex(int(processedNum))[2:]
     number.append(first_print)
-    output += "eb\n"
+    output += "eb "
     if len(first_print) == 1:
         output += "0" + first_print
     else:
         output += first_print
 
-    printed[index] = output.upper()
+    outputReverseArray = output.split(" ")
+    outputReverseArray = outputReverseArray[::-1]
+    for i in outputReverseArray:
+        printed.append(i.upper())
+    printed.append(" ")
     return
 
 
@@ -534,15 +631,53 @@ addressCounter = 0
 labels = {}
 jmps = []
 printed = []
-printed.append("CS")
+memory = ["XX"] * 256
+cp = 0
+sp = 0
+dp = 0
+flagCode = 0
+flagDataBreak = 0
+dataPrinted = []
 
 try:
     # iterate the input file
     for line in lines:
+        flagDataBreak = 0
         splitT = line.split(" ")
         # set instruction
         instructions = splitT[0].lower()
-
+        if instructions == "":
+            continue
+        if ".stack" in instructions:
+            sp = int(re.search(r'\((\d+)\)', line).group(1))
+            continue
+        if ".data" in instructions:
+            dp = int(re.search(r'\((\d+)\)', line).group(1))
+            continue
+        while (True and flagCode == 0):
+            if ".code" in instructions:
+                flagCode = 1
+                break
+            else:
+                print(instructions)
+                dataType = splitT[1].lower()
+                if dataType == "byte":
+                    dataPrinted.append(instructions)
+                elif dataType == "word":
+                    dataPrinted.append(instructions)
+                    dataPrinted.append(instructions)
+                elif dataType == "dword":
+                    dataPrinted.append(instructions)
+                    dataPrinted.append(instructions)
+                    dataPrinted.append(instructions)
+                    dataPrinted.append(instructions)
+                flagDataBreak = 1
+                break
+        if flagDataBreak == 1:
+            continue
+        if ".code" in instructions:
+            cp = int(re.search(r'\((\d+)\)', line).group(1))
+            continue
         # if instruction is label
         if ":" in line:
             first_arg = None
@@ -574,8 +709,24 @@ for i in jmps:
     jmp(i[0], i[1], i[2])
 
 # print all elements in printed array
+cpiterate = cp
+for i in range(cp, cp + 32):
+    memory[i] = "MM"
 for i in printed:
-    arr = i.split("\n")
-    arrLen = len(arr)
-    for j in range(arrLen-1,-1,-1):
-        print(arr[j])
+    if i == " " and cpiterate % 2 != 0:
+        cpiterate += 1
+        continue
+    if i == " " and cpiterate % 2 == 0:
+        continue
+    memory[cpiterate] = i
+    cpiterate += 1
+
+dpIterate = dp
+for i in range(dp,dp+32):
+    memory[i] = "MM"
+for i in dataPrinted:
+    memory[dpIterate] = i
+    dpIterate += 1
+
+
+print(memory)
