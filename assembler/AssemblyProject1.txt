@@ -1,18 +1,10 @@
-.stack(110)
+.stack(0)
 
-.data(70)
-myword WORD
-mybyte byte
-mydword dword
-
-
-.code(10)
-
-push eax
-add eax,ebx
-push 110
-push bx
-push 350
-push -40000
-pop eax
-
+.data(100)
+mmdReza BYTE
+fati DWORD
+.code(220)
+add ecx,eax
+push 13
+push ecx
+inc ax
